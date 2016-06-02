@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Entry:</strong>
+  <%= @keyword.entry_id %>
+</p>
+
+<p>
+  <strong>Text:</strong>
+  <%= @keyword.text %>
+</p>
+
+<p>
+  <strong>Relevance:</strong>
+  <%= @keyword.relevance %>
+</p>
+
+<%= link_to 'Edit', edit_keyword_path(@keyword) %> |
+<%= link_to 'Back', keywords_path %>

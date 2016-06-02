@@ -1,0 +1,32 @@
+<p id="notice"><%= notice %></p>
+<h4>Listing Keywords</h4>
+
+<table class="striped">
+  <thead>
+    <tr>
+      <th>Entry</th>
+      <th>Text</th>
+      <th>Relevance</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @keywords.each do |keyword| %>
+      <tr>
+        <% temp_url = entries_path + "/" + keyword.entry_id.to_s %>
+        <td><%= link_to Entry.find_by_id(keyword.entry_id).title, temp_url %></td>
+        <td><%= keyword.text %></td>
+        <td><%= keyword.relevance %></td>
+        <td><%= link_to 'Show', keyword %></td>
+        <td><%= link_to 'Edit', edit_keyword_path(keyword) %></td>
+        <td><%= link_to 'Destroy', keyword, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<%= will_paginate @keywords %>
+<br>
+<%= link_to 'New Keyword', new_keyword_path %>

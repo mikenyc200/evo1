@@ -1,0 +1,44 @@
+<style>
+
+.image_style {
+    margin-right: 15px;
+}
+.thumb {
+    display: inline-block;
+    float: left;
+    width: 250px;
+	  height: 250px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    border: 1px solid #999999;
+    background-position: center center;
+    background-size: cover;
+}
+</style>
+
+<p id="notice"><%= notice %></p>
+<p>
+  <h4><%= @entry.title %></h4>
+  <%= link_to @entry.atom_id, @entry.atom_id, :target => "_blank" %><br>
+  <!--<%= link_to @entry.url, @entry.url, :target => "_blank" %> -->
+  <%= @entry.sentiment %>
+</p>
+
+<p>
+
+
+
+<% if @entry and @entry.image %>
+    <img class="img-responsive" src="<%= @entry.image %>">
+    <!--<div class="thumb" style="background-image: url('<%= @entry.image %>');"></div>-->
+
+  <% else %>
+   <img class="responsive-img" src="http://www.rudebaguette.com/assets/default_profile.gif">
+    <!--<%= image_tag("http://www.rudebaguette.com/assets/default_profile.gif", :align => "left", :class => "image_style" ) %>-->
+<% end %>
+  <%= @entry.content %>
+</p>
+
+
+<%= link_to 'Edit', edit_entry_path(@entry) %> |
+<%= link_to 'Back', entries_path %>

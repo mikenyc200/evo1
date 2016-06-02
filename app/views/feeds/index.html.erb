@@ -1,0 +1,22 @@
+<p id="notice"><%= notice %></p>
+<h4>Listing Feeds</h4>
+
+<table class="table">
+  <tbody>
+    <% @feeds.each do |feed| %>
+      <tr>
+        <td><%= link_to feed.title, feed.url %></td>
+        <td><%= link_to feed.entries.count, feed%></td>
+        <td><%= feed.logo %></td>
+        <td><%= link_to 'Show', feed %></td>
+        <td><%= link_to 'Retrieve', retrieve_feed_path(feed) %></td>
+        <td><%= link_to 'Edit', edit_feed_path(feed) %></td>
+        <td><%= link_to 'Destroy', feed, method: :delete %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Feed', new_feed_path %>

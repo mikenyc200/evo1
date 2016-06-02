@@ -1,0 +1,177 @@
+<style>
+.image {
+    height: 75px;
+    width: 75px;
+    background-position: center;
+    background-size: cover;
+}
+<style>
+      body {
+        font-family: 'Oswald', sans-serif;
+      }
+    </style>
+</style>
+
+<p id="notice"><%= notice %></p>
+
+<center><h4>
+  Total Articles past 24 hours: <%= @entries.where(updated_at: 24.hours.ago..Time.now).count %>
+</h4></center>
+
+<% t_today = @entries.where(updated_at: 24.hours.ago..Time.now) %>
+<% t_yesterday = @entries.where(updated_at: 48.hours.ago..24.hours.ago) %>
+<% t_week = @entries.where(updated_at: 7.day.ago..Time.now) %>
+
+<% t_1 = @entries.where(updated_at: 24.hours.ago..Time.now) %>
+<% t_2 = @entries.where(updated_at: 48.hours.ago..24.hours.ago) %>
+<% t_3 = @entries.where(updated_at: 72.hours.ago..48.hours.ago) %>
+<% t_4 = @entries.where(updated_at: 96.hours.ago..72.hours.ago) %>
+<% t_5 = @entries.where(updated_at: 120.hours.ago..96.hours.ago) %>
+<% t_6 = @entries.where(updated_at: 144.hours.ago..120.hours.ago) %>
+<% t_7 = @entries.where(updated_at: 168.hours.ago..144.hours.ago) %>
+
+<table class="table">
+  <tr>
+    <td>
+      <strong>Trump Sentiment By Day</strong><br>
+
+
+<% if t_1.average("trump") %>
+  1: <%= t_1.average("trump").round(4) * 100 %><br>
+<% end %>
+<% if t_2.average("trump") %>
+  2: <%= t_2.average("trump").round(4) * 100 %><br>
+<% end %>
+<% if t_3.average("trump") %>
+  3: <%= t_3.average("trump").round(4) * 100 %><br>
+<% end %>
+<% if t_4.average("trump") %>
+  4: <%= t_4.average("trump").round(4) * 100 %><br>
+<% end %>
+<% if t_5.average("trump") %>
+  5: <%= t_5.average("trump").round(4) * 100 %><br>
+<% end %>
+<% if t_6.average("trump") %>
+  6: <%= t_6.average("trump").round(4) * 100 %><br>
+<% end %>
+<% if t_7.average("trump") %>
+  7: <%= t_7.average("trump").round(4) * 100 %><br>
+<% end %>
+
+</td>
+<td>
+</td>
+<td>
+  <strong>Clinton Sentiment By Day</strong><br>
+  <% if t_1.average("clinton") %>
+    1: <%= t_1.average("clinton").round(4) * 100 %><br>
+  <% end %>
+  <% if t_2.average("clinton") %>
+    2: <%= t_2.average("clinton").round(4) * 100 %><br>
+  <% end %>
+  <% if t_3.average("clinton") %>
+    3: <%= t_3.average("clinton").round(4) * 100 %><br>
+  <% end %>
+  <% if t_4.average("clinton") %>
+    4: <%= t_4.average("clinton").round(4) * 100 %><br>
+  <% end %>
+  <% if t_5.average("clinton") %>
+    5: <%= t_5.average("clinton").round(4) * 100 %><br>
+  <% end %>
+  <% if t_6.average("clinton") %>
+    6: <%= t_6.average("clinton").round(4) * 100 %><br>
+  <% end %>
+  <% if t_7.average("clinton") %>
+    7: <%= t_7.average("clinton").round(4) * 100 %><br>
+  <% end %>
+
+</td>
+</tr>
+</table>
+
+<table class="table">
+
+<% @entries.each do |entry| %>
+
+  <tr>
+    <td>
+
+      <% if entry.image %>
+       <div class="image" style="background-image: url('<%= entry.image %>');"></div>
+         <% else %>
+             <div class="image" style="background-image: url('https://www.flickr.com/photos/k3nna/3802348922');"></div>
+      <% end %>
+
+    </td>
+    <td>
+
+    <%= link_to entry.title, entry, {:style=>'font-family: helvetica;font-weight: bold;font-size: 18px; color: #000000;'} %>
+    <span style="font-size:75%;"><%= entry.created_at.strftime("%I:%M %P") %> GMT
+
+      <% if entry.content %>
+         <%= entry.content.split.size %>
+      <% end %>
+      <%= link_to "LINK", entry.url, :target => "_blank" %> <%= link_to 'DEL', entry, method: :delete %></span>
+
+    <!-- INTERNAL TABLE FOR SENTIMENT LOZENGES-->
+    <table>
+      <tr>
+        <td align="left">
+          <% if entry.trump %>
+
+            <% if entry.trump.to_f > 0.20 %>
+                <div style="font-size: 12px; border-radius: 6px; width:80px; height=40px; text-align: center; margin: 0 auto; background-color:#33ff66;" >
+                  T: <strong><%= entry.trump.round(4) * 100 %>%</strong>
+                </div>
+            <% end %>
+
+            <% if entry.trump.to_f < 0.20 and entry.trump.to_f > -0.20 %>
+              <div style="font-size: 12px; border-radius: 6px; width:80px; height=40px; text-align: center; margin: 0 auto; background-color:#e5e5e5;" >
+                T: <%= entry.trump.round(4) * 100 %>%
+              </div>
+            <% end %>
+
+            <% if entry.trump.to_f < -0.20 %>
+              <div style="font-size: 12px; border-radius: 6px; width:80px; height=40px; text-align: center; margin: 0 auto; background-color:#ff9999;" >
+                T: <strong><%= entry.trump.round(4) * 100 %>%</strong>
+              </div>
+            <% end %>
+          <% else %>
+        <% end %>
+
+        </td>
+        <td align="right">
+
+          <% if entry.clinton %>
+
+            <% if entry.clinton.to_f > 0.20 %>
+                <div style="font-size: 12px; border-radius: 6px; width:80px; height=40px; text-align: center; margin: 0 auto; background-color:#33ff66;" >
+                  C: <strong><%= entry.clinton.round(4) * 100 %>%</strong>
+                </div>
+            <% end %>
+
+            <% if entry.clinton.to_f < 0.20 and entry.clinton.to_f > -0.20 %>
+              <div style="font-size: 12px; border-radius: 6px; width:80px; height=40px; text-align: center; margin: 0 auto; background-color:#e5e5e5;" >
+                C: <%= entry.clinton.round(4) * 100 %>%
+              </div>
+            <% end %>
+
+            <% if entry.clinton.to_f < -0.20 %>
+              <div style="font-size: 12px; border-radius: 6px; width:80px; height=40px; text-align: center; margin: 0 auto; background-color:#ff9999;" >
+                C: <strong><%= entry.clinton.round(4) * 100 %>%</strong>
+              </div>
+            <% end %>
+          <% else %>
+        <% end %>
+
+
+        </td>
+      </tr>
+    </table>
+
+    </td>
+  </tr>
+
+  <% end %>
+
+</table>
